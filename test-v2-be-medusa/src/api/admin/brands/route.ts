@@ -4,6 +4,32 @@ import {
   createBrandWorkflow,
 } from "../../../workflows/create-brand";
 
+import { BRAND_MODULE } from "../../../modules/brand";
+import BrandModuleService from "../../../modules/brand/service";
+
+export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
+  const brandModuleService: BrandModuleService =
+    req.scope.resolve(BRAND_MODULE);
+
+  const limit = req.query.limit || 15;
+  const offset = req.query.offset || 0;
+
+  const [brands, count] = await brandModuleService.listAndCountBrands(
+    {},
+    {
+      skip: offset as number,
+      take: limit as number,
+    }
+  );
+
+  res.json({
+    brands,
+    count,
+    limit,
+    offset,
+  });
+};
+
 export const POST = async (
   req: MedusaRequest<CreateBrandInput>,
   res: MedusaResponse
