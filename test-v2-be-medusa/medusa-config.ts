@@ -9,6 +9,12 @@ const modules = [
   {
     resolve: "./src/modules/brand",
   },
+  {
+    resolve: "./src/modules/brand",
+    options: {
+      apiKey: process.env.BRAND_API_KEY || "temp",
+    },
+  },
 ];
 
 module.exports = defineConfig({
